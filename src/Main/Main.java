@@ -10,24 +10,19 @@ public class Main {
 
         // Pedir para o usuário digitar o nome
         System.out.print("Digite o nome do usuário: ");
-        String nome = scanner.nextLine();
-
-        // Criação de um novo usuário
-        Usuario usuario1 = new Usuario();
+        
         
         // Registrando o usuário com o nome fornecido pelo usuário
-        usuario1.registrarUsuario("12345678901", nome, "11987654321", "joao@email.com", "senha123");
-        nome = scanner.nextLine();
-        usuario1.registrarUsuario("12444444441", nome, "11987654321", "joao@email.com", "senha123");
+        Usuario.registrarUsuario();
+        Usuario.registrarUsuario();
 
         // Exibindo os dados do usuário
         
-        System.out.println("Nome: " + usuario1.getNome());
-        for(Usuario user : Usuario.usuarios){
-            user.getNome();
-        }
+        System.out.println("Usuários registrados:");
+        for (Usuario usuario : Usuario.usuarios) {
+            System.out.println(usuario);
 
         // Fechar o scanner
         scanner.close();
     }
-}
+}}
