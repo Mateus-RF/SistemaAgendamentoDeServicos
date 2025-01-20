@@ -1,33 +1,47 @@
 package Main;
 
 import java.util.Scanner;
-import Main.usuario.*;
+import Main.usuario.Usuario;
 
 public class Main {
     public static void main(String[] args) {
-        // Criar o objeto Scanner para capturar entrada do usuário
         Scanner scanner = new Scanner(System.in);
 
-        // Pedir para o usuário digitar o nome
-        System.out.print("Digite o nome do usuário: ");
-        String nome = scanner.nextLine();
+        // Registrar um novo usuário
+        System.out.println("Registrar um novo usuário:");
+        Usuario.registrarUsuario();
 
-        // Criação de um novo usuário
-        Usuario usuario1 = new Usuario();
-        
-        // Registrando o usuário com o nome fornecido pelo usuário
-        usuario1.registrarUsuario("12345678901", nome, "11987654321", "joao@email.com", "senha123");
-        nome = scanner.nextLine();
-        usuario1.registrarUsuario("12444444441", nome, "11987654321", "joao@email.com", "senha123");
+        // Fazer login no sistema
+        Usuario usuarioLogado = null;
+        while (usuarioLogado == null) {
+            System.out.println("\nFazer login no sistema:");
+            System.out.print("Digite seu email: ");
+            String email = scanner.next();
+            System.out.print("Digite sua senha: ");
+            String senha = scanner.next();
 
-        // Exibindo os dados do usuário
-        
-        System.out.println("Nome: " + usuario1.getNome());
-        for(Usuario user : Usuario.usuarios){
-            user.getNome();
+            usuarioLogado = Usuario.login(email, senha);
+
+            if (usuarioLogado == null) {
+                System.out.println("\nLogin inválido. Deseja tentar novamente? (S/N)");
+                String resposta = scanner.next().toUpperCase();
+                if (resposta.equals("N")) {
+                    System.out.println("Encerrando o programa.");
+                    scanner.close();
+                    return;
+                }
+            }
         }
 
-        // Fechar o scanner
+        // Editar perfil do usuário logado
+        System.out.println("\nEditar perfil:");
+        usuarioLogado.editarPerfil();
+
+        // Exibir informações atualizadas
+        System.out.println("\nPerfil atualizado:");
+        System.out.println(usuarioLogado);
+        System.out.println(usuarioLogado.visualizarPerfil());
+
         scanner.close();
     }
 }
