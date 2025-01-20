@@ -1,79 +1,157 @@
 package Main.usuario;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Usuario {
     protected long cpf, telefone;
     protected String nome, email, senha;
-    protected String tipo = "Cliente";//Diz se o usuario é um cliente, administrador ou profissional.]
+    protected String tipo = "Cliente"; // Diz se o usuário é um cliente, administrador ou profissional.
 
     public static ArrayList<Usuario> usuarios = new ArrayList<>();
-    
-    public void setCpf(long cpf){
+
+    // Setters
+    public void setCpf(long cpf) {
         this.cpf = cpf;
     }
-    public void setNome(String nome){
+
+    public void setNome(String nome) {
         this.nome = nome;
     }
-    public void setTelefone(long numero){
-       this.telefone = numero;
+
+    public void setTelefone(long numero) {
+        this.telefone = numero;
     }
-    public void setEmail(String email){
+
+    public void setEmail(String email) {
         this.email = email;
     }
-    public void setSenha(String senha){
+
+    public void setSenha(String senha) {
         this.senha = senha;
     }
-    
-    public long getCpf(){
+
+    // Getters
+    public long getCpf() {
         return cpf;
     }
-    public String getNome(){
+
+    public String getNome() {
         return nome;
     }
-    public long getTelefone(){
+
+    public long getTelefone() {
         return telefone;
     }
-    public String getEmail(){
+
+    public String getEmail() {
         return email;
     }
-    public String getSenha(){
+
+    public String getSenha() {
         return senha;
     }
 
-    public void registrarUsuario(String cpf, String nome, String numero, String email, String senha) {
-        if (cpf != null && cpf.length() == 11){
-            long ncpf = Long.parseLong(cpf);
-            setCpf(ncpf);
-        }else {System.out.println("CPF inválido. Deve ter exatamente 11 dígitos.");}
+    public static void registrarUsuario() {
+        Usuario novoUsuario = new Usuario();
+        Scanner scan = new Scanner(System.in);
 
-        if (nome != null && !nome.trim().isEmpty()){
-            setNome(nome);
-        }else{System.out.println("O nome não pode ser nulo ou vazio.");}
+        while (true) {
+            System.out.print("Digite seu CPF (11 dígitos): ");
+            String cpf = scan.next();
+            if (cpf.length() == 11) {
+                novoUsuario.setCpf(Long.parseLong(cpf));
+                break;
+            } else {
+                System.out.println("CPF inválido. Deve ter exatamente 11 dígitos.");
+            }
+        }
 
-        if (numero.length() == 11 && numero != null){
-            long ntelefone = Long.parseLong(numero);
-            setTelefone(ntelefone);
-        }else{  System.out.println("A quantidade de digitos deve ser EXATAMENTE: 11(com DDD).");}
+        System.out.print("Digite seu nome: ");
+        scan.nextLine(); 
+        novoUsuario.setNome(scan.nextLine());
 
-        if (email != null && !email.trim().isEmpty()){
-           setEmail(email);
-        }else{System.out.println("Não pode ser vazio ou nulo.");}
+        while (true) {
+            System.out.print("Digite um número de contato (11 dígitos com DDD): ");
+            String telefone = scan.next();
+            if (telefone.length() == 11) {
+                novoUsuario.setTelefone(Long.parseLong(telefone));
+                break;
+            } else {
+                System.out.println("Número inválido. Deve ter 11 dígitos.");
+            }
+        }
 
-        if (senha != null && senha.length() >= 8){
-            this.senha = senha;
-        }else{System.out.println("A senha deve ter pelo menos 8 Digitos.");}
+        System.out.print("Digite seu email: ");
+        novoUsuario.setEmail(scan.next());
 
-        usuarios.add(this);
+        while (true) {
+            System.out.print("Digite uma senha (mínimo 8 caracteres): ");
+            String senha = scan.next();
+            if (senha.length() >= 8) {
+                novoUsuario.setSenha(senha);
+                break;
+            } else {
+                System.out.println("Senha muito curta.");
+            }
+        }
+
+        usuarios.add(novoUsuario);
+        System.out.println("Usuário registrado com sucesso!");
+    }
+
+    // Método de login
+    public static Usuario login(String email, String senha) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
+                System.out.println("Login realizado com sucesso!");
+                return usuario;
+            }
+        }
+        System.out.println("Email ou senha inválidos.");
+        return null;
+    }
+
+    // Método para editar o perfil
+    public void editarPerfil() {
+        Scanner scan = new Scanner(System.in);
+
+        while (true) {
+            System.out.print("Digite um número de contato (11 dígitos com DDD): ");
+            String telefone = scan.next();
+            if (telefone.length() == 11) {
+                this.setTelefone(Long.parseLong(telefone));
+                break;
+            } else {
+                System.out.println("Número inválido. Deve ter 11 dígitos.");
+            }
+        } 
+
+        System.out.print("Digite o novo email da conta: ");
+        scan.nextLine();
+        this.setEmail(scan.nextLine());
+
+
+        while (true) {
+            System.out.print("Digite uma senha (mínimo 8 caracteres): ");
+            String senha = scan.next();
+            if (senha.length() >= 8) {
+                this.setSenha(scan.nextLine());
+                break;
+            } else {
+                System.out.println("Senha muito curta.");
+            }
+        }
+
+        System.out.println("Perfil atualizado com sucesso!");
     }
     
-    public boolean login(String email, String senha){
-        return true;
-    }
-    public void editarPerfil(String nome,int numero, String email, String senha){
+    public String visualizarPerfil() {
+        return "Nome: " + nome +
+            "\nCPF: " + cpf +
+            "\nTelefone: " + telefone +
+            "\nEmail: " + email +
+            "\nTipo: " + tipo;
+}
 
-    }
-    public String visualizarPerfil(){
-        return toString();
-    }
 }
