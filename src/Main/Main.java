@@ -1,28 +1,47 @@
 package Main;
 
 import java.util.Scanner;
-import Main.usuario.*;
+import Main.usuario.Usuario;
 
 public class Main {
     public static void main(String[] args) {
-        // Criar o objeto Scanner para capturar entrada do usuário
         Scanner scanner = new Scanner(System.in);
 
-        // Pedir para o usuário digitar o nome
-        System.out.print("Digite o nome do usuário: ");
-        
-        
-        // Registrando o usuário com o nome fornecido pelo usuário
-        Usuario.registrarUsuario();
+        // Registrar um novo usuário
+        System.out.println("Registrar um novo usuário:");
         Usuario.registrarUsuario();
 
-        // Exibindo os dados do usuário
-        
-        System.out.println("Usuários registrados:");
-        for (Usuario usuario : Usuario.usuarios) {
-            System.out.println(usuario);
+        // Fazer login no sistema
+        Usuario usuarioLogado = null;
+        while (usuarioLogado == null) {
+            System.out.println("\nFazer login no sistema:");
+            System.out.print("Digite seu email: ");
+            String email = scanner.next();
+            System.out.print("Digite sua senha: ");
+            String senha = scanner.next();
 
-        // Fechar o scanner
+            usuarioLogado = Usuario.login(email, senha);
+
+            if (usuarioLogado == null) {
+                System.out.println("\nLogin inválido. Deseja tentar novamente? (S/N)");
+                String resposta = scanner.next().toUpperCase();
+                if (resposta.equals("N")) {
+                    System.out.println("Encerrando o programa.");
+                    scanner.close();
+                    return;
+                }
+            }
+        }
+
+        // Editar perfil do usuário logado
+        System.out.println("\nEditar perfil:");
+        usuarioLogado.editarPerfil();
+
+        // Exibir informações atualizadas
+        System.out.println("\nPerfil atualizado:");
+        System.out.println(usuarioLogado);
+        System.out.println(usuarioLogado.visualizarPerfil());
+
         scanner.close();
     }
-}}
+}
