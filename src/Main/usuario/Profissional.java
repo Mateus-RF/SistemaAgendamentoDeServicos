@@ -1,10 +1,11 @@
 package Main.usuario;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Profissional extends Usuario {
-    private String especialidades;
+    private String especialidade;
     private ArrayList<String> horariosDisponiveis;
 
     // Construtor
@@ -14,39 +15,35 @@ public class Profissional extends Usuario {
     }
 
     // Setters e Getters
-    public void setEspecialidades(String especialidades) {
-        this.especialidades = especialidades;
+    public void setEspecialidade(String especialidades) {
+        this.especialidade = especialidades;
     }
 
-    public String getEspecialidades() {
-        return especialidades;
+    public String getEspecialidade() {
+        return especialidade;
     }
 
     public ArrayList<String> getHorariosDisponiveis() {
         return horariosDisponiveis;
     }
 
-    public static Profissional cadastrarProfissional() {
-        Scanner scan = new Scanner(System.in);
-
-        System.out.println("=== Cadastro de Profissional ===");
-        System.out.print("Digite seu email: ");
-        String email = scan.next();
-        System.out.print("Digite sua senha: ");
-        String senha = scan.next();
-
-        Usuario usuarioExistente = null;
-        for (Usuario usuario : Usuario.usuarios) {
-            if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
-                usuarioExistente = usuario;
-                break;
+    public static List<Profissional> getProfissionais() {
+        List<Profissional> profissionais = new ArrayList<>();
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Profissional) {
+                profissionais.add((Profissional) usuario);
             }
         }
+        return profissionais;
+    }
 
-        if (usuarioExistente == null) {
-            System.out.println("Usuário não encontrado ou credenciais inválidas.");
+    public static Profissional cadastrarProfissional(Usuario usuarioExistente) {
+        if (usuarioExistente == null || !(usuarioExistente instanceof Usuario)) {
+            System.out.println("Usuário inválido ou não encontrado.");
             return null;
         }
+
+        Scanner scan = new Scanner(System.in);
 
         Profissional profissional = new Profissional();
         profissional.setCpf(usuarioExistente.getCpf());
@@ -55,11 +52,12 @@ public class Profissional extends Usuario {
         profissional.setEmail(usuarioExistente.getEmail());
         profissional.setSenha(usuarioExistente.getSenha());
         profissional.tipo = "Profissional";
+
         System.out.print("Digite suas especialidades: ");
-        scan.nextLine();
-        profissional.setEspecialidades(scan.nextLine());
+        profissional.setEspecialidade(scan.nextLine());
 
         System.out.println("Adicione horários disponíveis (digite 'sair' para finalizar):");
+        System.out.println("Padrao de Horario Aceito(09:00 - 10:00)");
         while (true) {
             System.out.print("Horário: ");
             String horario = scan.nextLine();
@@ -68,20 +66,19 @@ public class Profissional extends Usuario {
             }
             profissional.adicionarHorario(horario);
         }
-        
+
         Usuario.usuarios.remove(usuarioExistente);
         Usuario.usuarios.add(profissional);
+        
 
         System.out.println("Usuário transformado em profissional com sucesso!");
         return profissional;
     }
-    
+
     public void adicionarHorario(String horario) {
         horariosDisponiveis.add(horario);
-        System.out.println("Horário " + horario + " adicionado com sucesso.");
     }
 
-    
     public void removerHorario(String horario) {
         if (horariosDisponiveis.remove(horario)) {
             System.out.println("Horário " + horario + " removido com sucesso.");
@@ -90,7 +87,6 @@ public class Profissional extends Usuario {
         }
     }
 
-    
     public void listarHorarios() {
         if (horariosDisponiveis.isEmpty()) {
             System.out.println("Nenhum horário disponível no momento.");
@@ -105,7 +101,7 @@ public class Profissional extends Usuario {
     @Override
     public String visualizarPerfil() {
         StringBuilder perfil = new StringBuilder(super.visualizarPerfil());
-        perfil.append("\nEspecialidades: ").append(especialidades != null ? especialidades : "Não especificada");
+        perfil.append("\nEspecialidades: ").append(especialidade != null ? especialidade : "Não especificada");
 
         if (horariosDisponiveis.isEmpty()) {
             perfil.append("\nHorários disponíveis: Nenhum horário cadastrado");
@@ -117,5 +113,5 @@ public class Profissional extends Usuario {
         }
         return perfil.toString();
     }
-
+    
 }

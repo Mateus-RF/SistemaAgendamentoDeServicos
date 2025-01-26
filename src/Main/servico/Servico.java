@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import Main.usuario.Profissional;
+import Main.usuario.Usuario;
+
 public class Servico {
     private static int contador = 1;
     private static List<Servico> servicosCadastrados = new ArrayList<>();
+    private List<Profissional> profissionaisDisponiveis;
 
     private int id, duracao;
     private String nome, descricao;
     private double valor;
+    
 
     // Construtor
     public Servico(String nome, String descricao, int duracao, double valor) {
@@ -19,6 +24,7 @@ public class Servico {
         this.descricao = descricao;
         this.duracao = duracao;
         this.valor = valor;
+        this.profissionaisDisponiveis = new ArrayList<>();
     }
 
     // Getters e Setters
@@ -42,6 +48,10 @@ public class Servico {
         return valor;
     }
 
+    public List<Profissional> getProfissionaisDisponiveis() {
+        return profissionaisDisponiveis;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -57,8 +67,20 @@ public class Servico {
     public void setValor(double valor) {
         this.valor = valor;
     }
-
-    // Cadastro de Serviço
+    
+    public void atribuirProfissional(Profissional profissional) {
+        if (!profissionaisDisponiveis.contains(profissional)) {
+            profissionaisDisponiveis.add(profissional);
+        }
+    }
+    public void adicionarProfissional(Profissional profissional) {
+        if (profissional != null) {
+            profissionaisDisponiveis.add(profissional);
+        } else {
+            System.out.println("Profissional inválido.");
+        }
+    }
+    
     public static Servico cadastrarServico() {
         Scanner scanner = new Scanner(System.in);
 
@@ -141,4 +163,46 @@ public class Servico {
     public static List<Servico> getServicosCadastrados() {
         return servicosCadastrados;
     }
+
+    static {
+        Profissional profissional1 = null;
+        Profissional profissional2 = null;
+        Profissional profissional3 = null;
+    
+        for (Usuario usuario : Usuario.usuarios) {
+            if (usuario instanceof Profissional) {
+                Profissional profissional = (Profissional) usuario;
+                switch (profissional.getNome()) {
+                    case "Neto":
+                        profissional1 = profissional;
+                        break;
+                    case "Maria Oliveira":
+                        profissional2 = profissional;
+                        break;
+                    case "Alice":
+                        profissional3 = profissional;
+                        break;
+                }
+            }
+        }
+    
+        Servico servico1 = new Servico("Corte de cabelo", "Serviço profissional de cabeleireiro.", 60, 25);
+        Servico servico2 = new Servico("Manicure", "Serviço completo de manicure.", 120, 100);
+        Servico servico3 = new Servico("Massoterapia", "Serviço de relaxamento e massagem.", 45, 250);
+    
+        servico1.adicionarProfissional(profissional1);
+        servico2.adicionarProfissional(profissional2);
+        servico3.adicionarProfissional(profissional3);
+    
+        servicosCadastrados.add(servico1);
+        servicosCadastrados.add(servico2);
+        servicosCadastrados.add(servico3);
+    }
+    public void listarProfissionais() {
+        System.out.println("Profissionais disponíveis para o serviço " + nome + ":");
+        for (Profissional profissional : profissionaisDisponiveis) {
+            System.out.println("- " + profissional.getNome());
+        }
+    }
+    
 }

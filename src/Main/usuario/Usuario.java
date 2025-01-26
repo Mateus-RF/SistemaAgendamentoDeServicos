@@ -1,6 +1,7 @@
 package Main.usuario;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Usuario {
@@ -55,7 +56,7 @@ public class Usuario {
     public static void registrarUsuario() {
         Usuario novoUsuario = new Usuario();
         Scanner scan = new Scanner(System.in);
-
+        System.out.println("=== Cadastro de Usuario ===");
         while (true) {
             System.out.print("Digite seu CPF (11 dígitos): ");
             String cpf = scan.next();
@@ -100,8 +101,14 @@ public class Usuario {
         System.out.println("Usuário registrado com sucesso!");
     }
 
-    // Método de login
-    public static Usuario login(String email, String senha) {
+    public static Usuario login() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("=== Faça seu Login ===");
+        System.out.println("Digite seu email: ");
+        String email = scan.nextLine();
+        System.out.println("Digite sua senha: ");
+        String senha = scan.nextLine();
+
         for (Usuario usuario : usuarios) {
             if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
                 System.out.println("Login realizado com sucesso!");
@@ -112,7 +119,6 @@ public class Usuario {
         return null;
     }
 
-    // Método para editar o perfil
     public void editarPerfil() {
         Scanner scan = new Scanner(System.in);
 
@@ -130,7 +136,6 @@ public class Usuario {
         System.out.print("Digite o novo email da conta: ");
         scan.nextLine();
         this.setEmail(scan.nextLine());
-
 
         while (true) {
             System.out.print("Digite uma senha (mínimo 8 caracteres): ");
@@ -152,6 +157,47 @@ public class Usuario {
             "\nTelefone: " + telefone +
             "\nEmail: " + email +
             "\nTipo: " + tipo;
-}
+    }
 
+    static {
+        Profissional profissional1 = new Profissional();
+        profissional1.setCpf(11111111111L);
+        profissional1.setNome("Neto");
+        profissional1.setTelefone(11999999999L);
+        profissional1.setEmail("edilsonAlves@exemplo.com");
+        profissional1.setSenha("senha123");
+        profissional1.setEspecialidade("Cabeleireiro");
+        profissional1.adicionarHorario("09:00 - 10:00");
+
+        Profissional profissional2 = new Profissional();
+        profissional2.setCpf(22222222222L);
+        profissional2.setNome("Maria Oliveira");
+        profissional2.setTelefone(11988888888L);
+        profissional2.setEmail("maria.oliveira@exemplo.com");
+        profissional2.setSenha("senha456");
+        profissional2.setEspecialidade("Manicure");
+        profissional2.adicionarHorario("13:00 - 15:00");
+
+        Profissional profissional3 = new Profissional();
+        profissional3.setCpf(33333333333L);
+        profissional3.setNome("Alice");
+        profissional3.setTelefone(11977777777L);
+        profissional3.setEmail("aliceMaria@exemplo.com");
+        profissional3.setSenha("senha789");
+        profissional3.setEspecialidade("Massoterapeuta");
+        profissional3.adicionarHorario("10:00 - 10:50");
+
+        Administrador administrador = new Administrador();
+        administrador.setCpf(44444444444L);
+        administrador.setNome("Mateus Administrador");
+        administrador.setTelefone(11966666666L);
+        administrador.setEmail("admin@admin");
+        administrador.setSenha("admin123");
+
+        // Adicionar à lista de usuários
+        usuarios.add(profissional1);
+        usuarios.add(profissional2);
+        usuarios.add(profissional3);
+        usuarios.add(administrador);
+    }
 }
