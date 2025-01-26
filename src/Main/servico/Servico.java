@@ -198,11 +198,4 @@ public class Servico {
         servicosCadastrados.add(servico2);
         servicosCadastrados.add(servico3);
     }
-    public void listarProfissionais() {
-        System.out.println("Profissionais disponíveis para o serviço " + nome + ":");
-        for (Profissional profissional : profissionaisDisponiveis) {
-            System.out.println("- " + profissional.getNome());
-        }
-    }
-    
 }
