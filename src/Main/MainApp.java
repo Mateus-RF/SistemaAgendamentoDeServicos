@@ -147,7 +147,7 @@ public class MainApp {
             } else if (opcao == 8) {
                 Agendamento.listarAgendamentos();
             } else if (opcao == 9) {
-                System.out.println(Relatorio.gerarRelatorio(Agendamento.agendamentos));
+                Relatorio.visualizarRelatorio();
             } else if (opcao == 10) {
                 break;
             } else {
@@ -167,7 +167,8 @@ public class MainApp {
             System.out.println("4. Cancelar Serviço");
             System.out.println("5. Listar Agendamentos");
             System.out.println("6. Cadastrar-se como Profissional");
-            System.out.println("7. Voltar");
+            System.out.println("7. Relatorio de agendamentos");
+            System.out.println("8. Voltar");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
 
@@ -189,7 +190,6 @@ public class MainApp {
                 } else {
                     Servico servicoEscolhido = servicos.get(servicoIndex);
                     Agendamento.agendarServico(cliente, servicoEscolhido);
-                    System.out.println(Relatorio.gerarRelatorio(Agendamento.agendamentos));
                 }
             } else if (opcao == 4){
                 Agendamento.listarAgendamentos();
@@ -206,6 +206,8 @@ public class MainApp {
             } else if (opcao == 6) {
                 Profissional.cadastrarProfissional(cliente);
             } else if (opcao == 7){
+                Relatorio.visualizarRelatorio();
+            } else if (opcao == 8){
                 break;
             }else {
                 System.out.println("Opção inválida!");

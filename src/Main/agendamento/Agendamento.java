@@ -20,6 +20,9 @@ public class Agendamento {
 
     public static List<Agendamento> agendamentos = new ArrayList<>();
 
+    public static void removerAgendamento(Agendamento agendamento) {
+        agendamentos.remove(agendamento);
+    }
     public int getNumeroAgendamento(){
         return numeroAgendamento;
     }
@@ -137,20 +140,15 @@ public class Agendamento {
     public void alterarStatus(String statusNovo) {
         if (statusNovo != null && !statusNovo.isEmpty()) {
             this.status = statusNovo;
+            if (statusNovo.equalsIgnoreCase("Cancelado") || statusNovo.equalsIgnoreCase("Concluído")) {
+                Relatorio.gerarRelatorio();
+                Agendamento.removerAgendamento(this);
+            }
         }
     }
 
     public String visualizarStatus() {
         return "Status do Agendamento #" + numeroAgendamento + ": " + status;
-    }
-
-    public String agendamento() {
-        return "Agendamento #" + numeroAgendamento + ":\n" +
-               "Cliente: " + cliente.getNome() + "\n" +
-               "Serviço: " + servico.getNome() + "\n" +
-               "Profissional: " + profissional + "\n" +
-               "Data e Hora: " + dataHora + "\n" +
-               "Status: " + status;
     }
 
     public static void listarAgendamentos() {
