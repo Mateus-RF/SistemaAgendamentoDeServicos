@@ -1,10 +1,10 @@
-package Main.usuario;
+package Main;
 
+import Main.Servico;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
-import Main.servico.Servico;
-import Main.usuario.Profissional;
 
 public class Administrador extends Usuario {
 
@@ -31,7 +31,7 @@ public class Administrador extends Usuario {
         Profissional profissionalEscolhido = profissionais.get(escolhaProfissional);
 
         System.out.println("=== Serviços Disponíveis ===");
-        List<Servico> servicos = Servico.getServicosCadastrados();
+        List<Servico> servicos = Servico.listarServicos();
         for (int i = 0; i < servicos.size(); i++) {
             System.out.println((i + 1) + ". " + servicos.get(i).getNome());
         }
@@ -48,10 +48,16 @@ public class Administrador extends Usuario {
         System.out.println("Profissional " + profissionalEscolhido.getNome() + " atribuído ao serviço " + servicoEscolhido.getNome());
     }
     
-
-
     @Override
-    public String visualizarPerfil() {
-        return super.visualizarPerfil() + "\nPermissões: Controle total";
-    }
+    public String visualizarPerfil(){
+            String text =  "Nome: " + nome +
+                "\nCPF: " + cpf +
+                "\nTelefone: " + telefone +
+                "\nEmail: " + email +
+                "\nTipo: " + tipo +
+                "\nPermissões de controle Total!";
+            
+            return text;
+        }
+    
 }
